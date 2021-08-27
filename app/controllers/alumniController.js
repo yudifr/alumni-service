@@ -57,7 +57,7 @@ exports.newAlumni = (async (req, res) => {
         `;
     try {
         const result = await db.query(query);
-        return response.ok('ok', result, res);
+        return response.ok('ok', 'data created', res);
     } catch (error) {
         return response.badRequest(error, res);
     }
