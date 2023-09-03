@@ -33,7 +33,7 @@ function createRiwayatTable() {
     (id SERIAL PRIMARY KEY, 
     id_alumni NUMERIC(15) NOT NULL, 
     id_perusahaan NUMERIC(15) NOT NULL, 
-    status VARCHAR(15) NOT NULL, 
+    is_active Boolean, 
     tahun VARCHAR(4) NOT NULL)
     `;
   pool
@@ -92,6 +92,7 @@ pool.on("remove", () => {
 module.exports = {
   createAllTables,
   dropAllTables,
+  dropRiwayatTable,
 };
 
 require("make-runnable/custom")({
