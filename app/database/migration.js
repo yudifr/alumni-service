@@ -6,7 +6,11 @@ pool.on("connect", () => {
 function createAlumniTable() {
   const query = `CREATE TABLE IF NOT EXISTS alumni
     (id SERIAL PRIMARY KEY, 
-    id_pelajar NUMERIC(15) UNIQUE NOT NULL, 
+    nama VARCHAR(40),
+    id_pelajar NUMERIC(15) UNIQUE NOT NULL,  
+    mother_name VARCHAR(40) NOT NULL, 
+    father_name VARCHAR(40) NOT NULL, 
+    address VARCHAR(40) NOT NULL, 
     id_sd VARCHAR(15) NOT NULL, 
     tahun_sd VARCHAR(4) NOT NULL, 
     id_smp VARCHAR(15) NOT NULL, 

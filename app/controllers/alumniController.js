@@ -129,10 +129,29 @@ exports.newAlumni = async (req, res) => {
     tahunSma,
     id_pt,
     tahunPt,
+    motherName,
+    fatherName,
+    address,
+    nama,
   } = req.body;
+  console.log(
+    idPelajar,
+    id_sd,
+    tahunSd,
+    id_smp,
+    tahunSmp,
+    id_sma,
+    tahunSma,
+    id_pt,
+    tahunPt,
+    motherName,
+    fatherName,
+    address,
+    nama
+  );
   var query = `
-        INSERT INTO ALUMNI (id_pelajar,id_sd,tahun_sd,id_smp,tahun_smp,id_sma,tahun_sma,id_pt,tahun_pt) 
-        VALUES('${idPelajar}','${id_sd}','${tahunSd}','${id_smp}','${tahunSmp}'
+        INSERT INTO ALUMNI (id_pelajar,nama,mother_name,father_name,address,id_sd,tahun_sd,id_smp,tahun_smp,id_sma,tahun_sma,id_pt,tahun_pt) 
+        VALUES('${idPelajar}','${nama}','${motherName}','${fatherName}','${address}','${id_sd}','${tahunSd}','${id_smp}','${tahunSmp}'
         ,'${id_sma}','${tahunSma}','${id_pt}','${tahunPt}') RETURNING id
         `;
   console.log(query);
