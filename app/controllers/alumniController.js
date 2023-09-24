@@ -87,9 +87,11 @@ exports.getAlumniId = async (req, res) => {
   }
 };
 exports.getAlumniRiwayatId = async (req, res) => {
+  // var query =
+  //   "select * from alumni inner join riwayat_kerja on alumni.id = riwayat_kerja.id_alumni where alumni.id = " +
+  //   req.params.id;
   var query =
-    "select * from alumni inner join riwayat_kerja on alumni.id = riwayat_kerja.id_alumni where alumni.id = " +
-    req.params.id;
+    "select * from riwayat_kerja where id_alumni   = " + req.params.id;
   try {
     const result = await db.query(query);
     if (result.rowCount == 0) {
