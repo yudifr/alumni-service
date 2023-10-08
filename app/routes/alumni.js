@@ -21,6 +21,9 @@ router
   .route("/getworkerdata")
   .post(alumniController.getConsumerKuisionerByInstitutionBasedOnAlumni);
 router
+  .route("/get-consumer-id")
+  .post(alumniController.getConsumerIdFromWorkingHistory);
+router
   .route("/riwayat/history/:id")
   .get(alumniController.getAlumniRiwayatId)
   .put(alumniController.updateRiwayat)

@@ -48,7 +48,6 @@ exports.getConsumerKuisionerByInstitutionBasedOnAlumni = async (req, res) => {
     { value: 1, key: "id_sd" },
     { value: 2, key: "id_smp" },
     { value: 3, key: "id_sma" },
-    { value: 4, key: "id_pt" },
   ];
   const selectedTypeField = typeFields?.find(
     (x) => x.value == institution_type
@@ -58,11 +57,36 @@ exports.getConsumerKuisionerByInstitutionBasedOnAlumni = async (req, res) => {
   try {
     const result = await db.query(query);
     const mappedResults = result.rows?.map((x) => x.id);
-    console.log(mappedResults);
+    console.log(
+      mappedResults,
+      "huha",
+      selectedTypeField,
+      institution_id,
+      institution_type
+    );
+    // let workPlaceIdQueries =
+    //   "select distinct id_perusahaan from riwayat_kerja where id_alumni IN (" +
+    //   mappedResults +
+    //   ")";
+    // const workplaceResult = await db.query(workPlaceIdQueries);
+    // const workplaceMappedResults = workplaceResult.rows?.map(
+    //   (x) => x.id_perusahaan
+    // );
+    // console.log(workplaceMappedResults, workplaceResult);
+    return response.ok("ok", mappedResults, res);
+  } catch (error) {
+    console.log(error);
+    return response.badRequest(error, res);
+  }
+};
+exports.getConsumerIdFromWorkingHistory = async (req, res) => {
+  const { ids } = req.body;
+  try {
     let workPlaceIdQueries =
       "select distinct id_perusahaan from riwayat_kerja where id_alumni IN (" +
-      mappedResults +
+      ids +
       ")";
+    console.log("ids", ids, workPlaceIdQueries);
     const workplaceResult = await db.query(workPlaceIdQueries);
     const workplaceMappedResults = workplaceResult.rows?.map(
       (x) => x.id_perusahaan
@@ -79,7 +103,7 @@ exports.getAlumniId = async (req, res) => {
   try {
     const result = await db.query(query);
     if (result.rowCount == 0) {
-      return response.badRequest("no data", res);
+      return response.badRequest([], res);
     }
     return response.ok("ok", result.rows, res);
   } catch (error) {
@@ -95,7 +119,7 @@ exports.getAlumniRiwayatId = async (req, res) => {
   try {
     const result = await db.query(query);
     if (result.rowCount == 0) {
-      return response.badRequest("no data", res);
+      return response.badRequest([], res);
     }
     return response.ok("ok", result.rows, res);
   } catch (error) {
@@ -112,7 +136,7 @@ exports.getWorkerDataWithConsumerId = async (req, res) => {
     const result = await db.query(query);
     console.log(result);
     if (result.rowCount == 0) {
-      return response.badRequest("no data", res);
+      return response.badRequest([], res);
     }
     return response.ok("ok", result.rows, res);
   } catch (error) {
