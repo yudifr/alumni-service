@@ -98,6 +98,19 @@ exports.getConsumerIdFromWorkingHistory = async (req, res) => {
     return response.badRequest(error, res);
   }
 };
+exports.alumniDataOfInstitution = async (req, res) => {
+  const { ids } = req.body;
+  console.log(ids);
+  try {
+    let alumniIdQuery = "select * from alumni where id IN (" + ids + ")";
+    console.log("ids", ids, alumniIdQuery);
+    const alumniResult = await db.query(alumniIdQuery);
+    return response.ok("ok", alumniResult.rows, res);
+  } catch (error) {
+    console.log(error);
+    return response.badRequest(error, res);
+  }
+};
 exports.getAlumniId = async (req, res) => {
   var query = "select * from alumni where id = " + req.params.id;
   try {

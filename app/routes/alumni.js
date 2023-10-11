@@ -23,6 +23,7 @@ router
 router
   .route("/get-consumer-id")
   .post(alumniController.getConsumerIdFromWorkingHistory);
+router.route("/get-alumni-data").post(alumniController.alumniDataOfInstitution);
 router
   .route("/riwayat/history/:id")
   .get(alumniController.getAlumniRiwayatId)
