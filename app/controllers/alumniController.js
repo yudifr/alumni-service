@@ -98,6 +98,47 @@ exports.getConsumerIdFromWorkingHistory = async (req, res) => {
     return response.badRequest(error, res);
   }
 };
+exports.getConsumerIdFromWorkingHistoryWithAlumni = async (req, res) => {
+  const { ids } = req.body;
+  try {
+    let workPlaceIdQueries =
+      "select * from riwayat_kerja where id_alumni IN (" + ids + ")";
+    console.log("ids", ids, workPlaceIdQueries);
+    const workplaceResult = await db.query(workPlaceIdQueries);
+    const workplaceMappedResults = workplaceResult.rows?.map((x) => {
+      return {
+        id_perusahaan: x.id_perusahaan,
+        id_alumni: x.id_alumni,
+        ...x,
+      };
+    });
+    console.log(workplaceMappedResults, workplaceResult);
+    return response.ok("ok", workplaceMappedResults, res);
+  } catch (error) {
+    console.log(error);
+    return response.badRequest(error, res);
+  }
+};
+exports.getAlumniFromConsumerId = async (req, res) => {
+  const { consumerId } = req.body;
+  try {
+    let workPlaceIdQueries = `select * from riwayat_kerja rk INNER JOIN alumni al on rk.id_alumni = al.id WHERE rk.id_perusahaan = '${consumerId}'`;
+    console.log("consumerId", consumerId, workPlaceIdQueries);
+    const workplaceResult = await db.query(workPlaceIdQueries);
+    const workplaceMappedResults = workplaceResult.rows?.map((x) => {
+      return {
+        id_perusahaan: x.id_perusahaan,
+        id_alumni: x.id_alumni,
+        ...x,
+      };
+    });
+    console.log(workplaceMappedResults, workplaceResult);
+    return response.ok("ok", workplaceMappedResults, res);
+  } catch (error) {
+    console.log(error);
+    return response.badRequest(error, res);
+  }
+};
 exports.alumniDataOfInstitution = async (req, res) => {
   const { ids } = req.body;
   console.log(ids);
