@@ -39,7 +39,7 @@ exports.getAlumniKuisionerByInstitution = async (req, res) => {
     return response.ok("ok", mappedResults, res);
   } catch (error) {
     console.log(error);
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 exports.getConsumerKuisionerByInstitutionBasedOnAlumni = async (req, res) => {
@@ -76,7 +76,7 @@ exports.getConsumerKuisionerByInstitutionBasedOnAlumni = async (req, res) => {
     return response.ok("ok", mappedResults, res);
   } catch (error) {
     console.log(error);
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 exports.getConsumerIdFromWorkingHistory = async (req, res) => {
@@ -95,7 +95,7 @@ exports.getConsumerIdFromWorkingHistory = async (req, res) => {
     return response.ok("ok", workplaceMappedResults, res);
   } catch (error) {
     console.log(error);
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 exports.getConsumerIdFromWorkingHistoryWithAlumni = async (req, res) => {
@@ -116,7 +116,7 @@ exports.getConsumerIdFromWorkingHistoryWithAlumni = async (req, res) => {
     return response.ok("ok", workplaceMappedResults, res);
   } catch (error) {
     console.log(error);
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 exports.getAlumniFromConsumerId = async (req, res) => {
@@ -136,7 +136,7 @@ exports.getAlumniFromConsumerId = async (req, res) => {
     return response.ok("ok", workplaceMappedResults, res);
   } catch (error) {
     console.log(error);
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 exports.alumniDataOfInstitution = async (req, res) => {
@@ -149,7 +149,7 @@ exports.alumniDataOfInstitution = async (req, res) => {
     return response.ok("ok", alumniResult.rows, res);
   } catch (error) {
     console.log(error);
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 exports.getAlumniId = async (req, res) => {
@@ -157,11 +157,11 @@ exports.getAlumniId = async (req, res) => {
   try {
     const result = await db.query(query);
     if (result.rowCount == 0) {
-      return response.badRequest([], res);
+      return response.badRequest([], res, res);
     }
     return response.ok("ok", result.rows, res);
   } catch (error) {
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 exports.getAlumniRiwayatId = async (req, res) => {
@@ -173,11 +173,11 @@ exports.getAlumniRiwayatId = async (req, res) => {
   try {
     const result = await db.query(query);
     if (result.rowCount == 0) {
-      return response.badRequest([], res);
+      return response.badRequest([], res, res);
     }
     return response.ok("ok", result.rows, res);
   } catch (error) {
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 exports.getWorkerDataWithConsumerId = async (req, res) => {
@@ -190,11 +190,11 @@ exports.getWorkerDataWithConsumerId = async (req, res) => {
     const result = await db.query(query);
     console.log(result);
     if (result.rowCount == 0) {
-      return response.badRequest([], res);
+      return response.badRequest([], res, res);
     }
     return response.ok("ok", result.rows, res);
   } catch (error) {
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 
@@ -207,8 +207,7 @@ exports.newAlumni = async (req, res) => {
     tahunSmp,
     id_sma,
     tahunSma,
-    id_pt,
-    tahunPt,
+
     motherName,
     fatherName,
     address,
@@ -216,23 +215,31 @@ exports.newAlumni = async (req, res) => {
   } = req.body;
   console.log(
     idPelajar,
+    "idPelajar,",
     id_sd,
+    "id_sd",
     tahunSd,
+    "tahunSd,",
     id_smp,
+    "id_smp,",
     tahunSmp,
+    "tahunSmp,",
     id_sma,
+    "id_sma,",
     tahunSma,
-    id_pt,
-    tahunPt,
+    "tahunSma,",
     motherName,
+    "motherName,",
     fatherName,
+    "fatherName,",
     address,
+    "address,",
     nama
   );
   var query = `
-        INSERT INTO ALUMNI (id_pelajar,nama,mother_name,father_name,address,id_sd,tahun_sd,id_smp,tahun_smp,id_sma,tahun_sma,id_pt,tahun_pt) 
+        INSERT INTO ALUMNI (id_pelajar,nama,mother_name,father_name,address,id_sd,tahun_sd,id_smp,tahun_smp,id_sma,tahun_sma) 
         VALUES('${idPelajar}','${nama}','${motherName}','${fatherName}','${address}','${id_sd}','${tahunSd}','${id_smp}','${tahunSmp}'
-        ,'${id_sma}','${tahunSma}','${id_pt}','${tahunPt}') RETURNING id
+        ,'${id_sma}','${tahunSma}') RETURNING id
         `;
   console.log(query);
   try {
@@ -240,11 +247,12 @@ exports.newAlumni = async (req, res) => {
     return response.ok("ok", result.rows, res);
   } catch (error) {
     console.log(error);
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 
 exports.newRiwayat = async (req, res) => {
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
   const { id_alumni, id_perusahaan, is_active, tahun } = req.body;
   console.log(req.body);
   // insert into riwayat_kerja (id_alumni,id_perusahaan,status,tahun) values ('3','2','bekerja','2021')
@@ -253,22 +261,33 @@ exports.newRiwayat = async (req, res) => {
         INSERT INTO RIWAYAT_KERJA (id_alumni,id_perusahaan,is_active,tahun)
         VALUES('${id_alumni}','${id_perusahaan}','${isValActive}','${tahun}') RETURNING id
         `;
-  console.log(query);
+  console.log(query, "aaaa");
   try {
-    const updateAllRiwayatQuery = await db.query(updateAllRiwayat(id_alumni));
-    console.log(updateAllRiwayatQuery.rows);
     const result = await db.query(query);
     return response.ok("ok", result.rows, res);
   } catch (error) {
     console.log(error);
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
-
+exports.deleteRiwayatOfAlumni = async (req, res) => {
+  const { id_alumni } = req.body;
+  console.log(req.body);
+  let queryy = `
+        DELETE FROM RIWAYAT_KERJA WHERE id_alumni = '${id_alumni}'
+        `;
+  console.log(queryy, "aaaa");
+  try {
+    const result = await db.query(queryy);
+    return response.ok("ok", result.rows, res);
+  } catch (error) {
+    console.log(error);
+    return response.badRequest(error, res, res);
+  }
+};
 exports.updateAlumni = async (req, res) => {
-  const { id_sd, tahunSd, id_smp, tahunSmp, id_sma, tahunSma, id_pt, tahunPt } =
+  const { id_sd, tahunSd, id_smp, tahunSmp, id_sma, tahunSma, id_alumni } =
     req.body;
-  const id = req.params.id;
   var query = `
         UPDATE ALUMNI SET
         id_sd = '${id_sd}',
@@ -276,19 +295,18 @@ exports.updateAlumni = async (req, res) => {
         id_smp = '${id_smp}',
         tahun_smp = '${tahunSmp}',
         id_sma = '${id_sma}',
-        tahun_sma = '${tahunSma}',
-        id_pt = '${id_pt}',
-        tahun_pt = '${tahunPt}'
-        WHERE id = ${id}
+        tahun_sma = '${tahunSma}'
+        WHERE id = ${id_alumni}
         `;
   try {
     const result = await db.query(query);
+    console.log(query, result);
     if (result.rowCount == 0) {
-      return response.badRequest("no related data", res);
+      return response.badRequest("no related data", res, res);
     }
     return response.ok("ok", result, res);
   } catch (error) {
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 exports.updateRiwayat = async (req, res) => {
@@ -312,7 +330,7 @@ exports.updateRiwayat = async (req, res) => {
     }
     return response.ok("ok", result, res);
   } catch (error) {
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 
@@ -329,7 +347,7 @@ exports.deleteAlumni = async (req, res) => {
     }
     return response.ok("ok", result, res);
   } catch (error) {
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };
 exports.deleteRiwayat = async (req, res) => {
@@ -345,6 +363,6 @@ exports.deleteRiwayat = async (req, res) => {
     }
     return response.ok("ok", result, res);
   } catch (error) {
-    return response.badRequest(error, res);
+    return response.badRequest(error, res, res);
   }
 };

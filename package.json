@@ -5,10 +5,12 @@
   "main": "./app/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "create-tables": "node ./app/database/migration.js createAllTables",
+    "create-tables": "node ./app/database/migration.js createRiwayatTable",
+    "create-tables2": "node ./app/database/migration.js createAlumniTable",
     "drop-tables": "node ./app/database/migration.js dropAllTables",
     "start": "nodemon --watch .",
-    "setup": "npm-run-all -p start create-tables"
+    "setup": "npm-run-all -p start create-tables",
+    "init": "npm run create-tables && npm run create-tables2 && npm run start"
   },
   "author": "",
   "license": "ISC",

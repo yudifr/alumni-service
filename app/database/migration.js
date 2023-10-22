@@ -16,9 +16,7 @@ function createAlumniTable() {
     id_smp VARCHAR(15) NOT NULL, 
     tahun_smp VARCHAR(4) NOT NULL, 
     id_sma VARCHAR(15) NOT NULL, 
-    tahun_sma VARCHAR(4) NOT NULL, 
-    id_pt VARCHAR(15) NOT NULL, 
-    tahun_pt VARCHAR(4) NOT NULL)
+    tahun_sma VARCHAR(4) NOT NULL)
     `;
 
   pool
@@ -94,7 +92,8 @@ pool.on("remove", () => {
 });
 
 module.exports = {
-  createAllTables,
+  createAlumniTable,
+  createRiwayatTable,
   dropAllTables,
   dropRiwayatTable,
 };

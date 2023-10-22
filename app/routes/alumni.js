@@ -35,6 +35,9 @@ router
   .get(alumniController.getAlumniRiwayatId)
   .put(alumniController.updateRiwayat)
   .delete(alumniController.deleteRiwayat);
-
+router
+  .route("/riwayat/remove-history")
+  .post(alumniController.deleteRiwayatOfAlumni);
+router.route("/update/alumni").post(alumniController.updateAlumni);
 router.post("/riwayat", alumniController.newRiwayat);
 module.exports = router;
